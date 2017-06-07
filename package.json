@@ -3,8 +3,8 @@
   "scripts": {
     "build": "npm run lint && npm run update-schema && npm run relay-compiler && npm run webpack",
     "lint": "eslint *.js src tools",
-    "relay-compiler": "relay-compiler --src src --schema src/data/schema.graphql",
-    "start": "npm run relay-compiler && cross-env BABEL_ENV=es webpack-dev-server --hot --inline",
+    "relay-compiler": "relay-compiler --src src --schema server/data/schema.graphql",
+    "start": "npm run relay-compiler && cross-env BABEL_ENV=es webpack-dev-server --hot --inline | babel-node server",
     "update-schema": "babel-node tools/updateSchema.js",
     "webpack": "cross-env NODE_ENV=production BABEL_ENV=es webpack -p"
   },
@@ -26,6 +26,8 @@
     "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.10.3",
+    "express": "^4.15.3",
+    "express-graphql": "^0.6.6",
     "farce": "^0.2.1",
     "file-loader": "^0.11.1",
     "found": "^0.3.0",
@@ -39,7 +41,6 @@
     "react-dom": "^15.5.4",
     "react-relay": "^1.0.0",
     "relay-compiler": "^1.0.0",
-    "relay-local-schema": "^0.6.2",
     "relay-runtime": "^1.0.0",
     "style-loader": "^0.18.1",
     "todomvc-app-css": "^2.1.0",

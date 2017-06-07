@@ -5,11 +5,9 @@ import createRender from 'found/lib/createRender';
 import { Resolver } from 'found-relay';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Network } from 'relay-local-schema';
-import { Environment, RecordSource, Store } from 'relay-runtime';
+import { Environment, Network, RecordSource, Store } from 'relay-runtime';
 
 import routes from './routes';
-import schema from './data/schema';
 
 import 'todomvc-common/base';
 import 'todomvc-common/base.css';
@@ -17,8 +15,21 @@ import 'todomvc-app-css/index.css';
 
 import './assets/learn.json';
 
+function fetchQuery(operation, variables) {
+  return fetch('http://localhost:5000/graphql', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      query: operation.text,
+      variables,
+    }),
+  }).then(response => response.json());
+}
+
 const environment = new Environment({
-  network: Network.create({ schema }),
+  network: Network.create(fetchQuery),
   store: new Store(new RecordSource()),
 });
 
